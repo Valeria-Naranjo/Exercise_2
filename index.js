@@ -23,18 +23,17 @@ app.post("/createCard", async (req, res)=>{
 
 
 //get all the cards  (SELECT * FROM cards)
-app.get("/getAllCards", async (req, res)=>{
-    try{
+app.get("/getAllCards", async (req, res) => {
+    try {
         const cards = await Card.find();
         res.status(200).json(cards);
-    }catch{
-        res.status(400).send(Error);
-        console.error(Error);
+    } catch (error) {
+        res.status(400).json({ error: 'Failed to fetch cards' });
+        console.error(error);
     }
 });
-
 // get card by id
-app.get("/getAllCards/:id", async (req, res)=>{
+app.get("/getCard/:id", async (req, res)=>{
     try{
         const { id } = req.params;
         const card = await Card.findById(id);
@@ -46,8 +45,23 @@ app.get("/getAllCards/:id", async (req, res)=>{
     }
 });
 
+// Update card by id
+app.put('/cards/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updated = await Card.findByIdAndUpdate(id, req.body, { 
+            new: true,  // Reurns the updated document
+            runValidators: true  // Excecute schema validators
+        });
+        if (!updated) return res.status(404).json({ message: 'Card not found' });
+        return res.status(200).json({ message: 'Card updated', card: updated });
+    } catch (error) {
+        console.error(error);
+        return res.status(400).json({ error: 'Invalid id or request' });
+    }
+});
+
 // delete card by id
-//CREAR UN DELETE AAAAAA
 app.delete('/cards/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -60,7 +74,6 @@ app.delete('/cards/:id', async (req, res) => {
     }
 });
 
-
 app.get("/hola",(req,res)=>{
      res.status(200).send("Hola MundoHello world from my Server cute");
 })
@@ -71,11 +84,8 @@ app.post("/send", (req, res)=>{
     res.status(200).send("Data received successfully" + user + " " + email );
 })
 
-app.listen(3000,()=>{
-    console.log("Server started on http://localhost:3000");
-});
 
-const PORT = process.env.PORT;
-app.listen(PORT,()=>{
-    console.log(`Server started on http://localhost: ${PORT}`);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server started on http://localhost:${PORT}`);
 });
