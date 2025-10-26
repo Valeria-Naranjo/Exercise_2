@@ -48,7 +48,7 @@ app.post ("/addCard", async (req,res) =>{
 });
 
 //2. get all the cards  (SELECT * FROM cards)
-app.get("/getAllCards", async (req, res) => {
+app.get("/getCards", async (req, res) => {
     try {
         const cards = await Card.find();
         res.status(200).json(cards);
@@ -71,7 +71,7 @@ app.get("/getCard/:id", async (req, res)=>{
 });
 
 //4. Update card by id - this method updates an existing card
-app.put('/cards/:id', async (req, res) => {
+app.put('/updateCard/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const updated = await Card.findByIdAndUpdate(id, req.body, { 
@@ -110,7 +110,7 @@ app.patch ("/updateCard/:id", async (req, res) => {
 });
 
 //6. delete card by id
-app.delete('/cards/:id', async (req, res) => {
+app.delete('/delateCard/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const deleted = await Card.findByIdAndDelete(id);
@@ -124,8 +124,35 @@ app.delete('/cards/:id', async (req, res) => {
 
 
 //TEST ROUTES
+
+// root route - API documentation
+app.get("/", (req, res) => {
+    res.status(200).json({
+        message: "API de Cards - Exercise 2",
+        version: "1.0.0",
+        endpoints: {
+            cards: {
+                createCard: "POST /createCard",
+                addCard: "POST /addCard",
+                getCards: "GET /getCards",
+                getCard: "GET /getCard/:id",
+                updateCardPUT: "PUT /updateCard/:id",
+                updateCardPATCH: "PATCH /updateCard/:id",
+                deleteCard: "DELETE /deleteCard/:id"
+            },
+            test: {
+                hello: "GET /hola",
+                send: "POST /send"
+            }
+        },
+        status: "online",
+        database: "connected"
+    });
+});
+
+
 app.get("/hola",(req,res)=>{
-     res.status(200).send("Hola MundoHello world from my Server cute");
+     res.status(200).send("Hello world from my Server cute");
 })
 
 app.post("/send", (req, res)=>{
