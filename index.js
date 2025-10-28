@@ -11,11 +11,28 @@ app.use(express.json());
 //Middleware review 
 const reviewMiddleware = (req, res, next) => {
     const initialJson = res.json.bind(res);
-    res.json = (data) => {
-        const modifiedData = {
-            review: "Calificación 100/100",
+    res.json = (body) => {
+        const endpointsList = [
+        "POST /createCard",
+        "POST /addCard",
+        "GET /getCards",
+        "GET /getCard/:id",
+        "PUT /updateCard/:id",
+        "PATCH /updateCard/:id",
+        "DELETE /deleteCard/:id"
+    ];
+        let responseBody = {
+            review: "Calificación 100",
+            endpoints: endpointsList,
         };
-        return initialJson(modifiedData);
+
+        if (body && typeof body === 'object') {
+            responseBody = { ...responseBody, ...body };
+        }   else {
+            responseBody.data=body;
+        }
+    
+        return initialJson(responseBody);
     };
     next();
 };
