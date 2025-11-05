@@ -6,6 +6,11 @@ dotenv.config();
 const app = express()
 connectDB();
 app.use(express.json());  
+import cors from "cors";
+connectDB();
+
+app.use(express.json());
+app.use(cors());
 
 
 //Middleware review 
