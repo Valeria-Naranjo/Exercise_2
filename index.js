@@ -3,46 +3,17 @@ import { connectDB } from "./db.js";
 import { Card } from "./models/Card.js";
 import dotenv from "dotenv";
 dotenv.config();
-const app = express();
+const app = express()
 connectDB();
 app.use(express.json());  
 import cors from "cors";
-
+connectDB();
 
 
 app.use(cors());
 
 //Middleware review 
-const reviewMiddleware = (req, res, next) => {
-    const initialJson = res.json.bind(res);
-    res.json = (body) => {
-        const endpointsList = [
-        "POST /createCard",
-        "POST /addCard",
-        "GET /getCards",
-        "GET /getCard/:id",
-        "PUT /updateCard/:id",
-        "PATCH /updateCard/:id",
-        "DELETE /deleteCard/:id"
-    ];
-        let responseBody = {
-            review: "Calificación 100",
-            endpoints: endpointsList,
-        };
 
-        if (body && typeof body === 'object') {
-            responseBody = { ...responseBody, ...body };
-        }   else {
-            responseBody.data=body;
-        }
-    
-        return initialJson(responseBody);
-    };
-    next();
-};
-
-//Initialize Middleware
-app.use(reviewMiddleware);
 
 // 1. create a card (INSERT INTO cards ...)
 app.post("/createCard", async (req, res)=>{
@@ -72,7 +43,7 @@ app.post ("/addCard", async (req,res) =>{
 app.get("/getCards", async (req, res) => {
     try {
         const cards = await Card.find();
-        res.status(200).json("QUe onda");
+        res.status(200).json(res);
     } catch (error) {
         res.status(400).json({ error: 'Failed to fetch cards' });
         console.error(error);
@@ -147,6 +118,29 @@ app.delete('/delateCard/:id', async (req, res) => {
 //TEST ROUTES
 
 // root route - API documentation
+app.get("/endpoints", (req, res) => {
+    res.status(200).json({
+        message: "API de Cards - Exercise 2",
+        version: "1.0.0",
+        endpoints: {
+            cards: {
+                createCard: "POST /createCard",
+                addCard: "POST /addCard",
+                getCards: "GET /getCards",
+                getCard: "GET /getCard/:id",
+                updateCardPUT: "PUT /updateCard/:id",
+                updateCardPATCH: "PATCH /updateCard/:id",
+                deleteCard: "DELETE /deleteCard/:id"
+            },
+            test: {
+                hello: "GET /hola",
+                send: "POST /send"
+            }
+        },
+        status: "online",
+        database: "connected"
+    });
+});
 
 
 app.get("/hola",(req,res)=>{
