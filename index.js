@@ -3,11 +3,11 @@ import { connectDB } from "./db.js";
 import { Card } from "./models/Card.js";
 import dotenv from "dotenv";
 dotenv.config();
-const app = express()
+const app = express();
 connectDB();
 app.use(express.json());  
 import cors from "cors";
-connectDB();
+
 
 
 app.use(cors());
