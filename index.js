@@ -73,7 +73,7 @@ app.post ("/addCard", async (req,res) =>{
 app.get("/getCards", async (req, res) => {
     try {
         const cards = await Card.find();
-        res.status(200).json(cards);
+        res.status(200).json("QUe onda");
     } catch (error) {
         res.status(400).json({ error: 'Failed to fetch cards' });
         console.error(error);
