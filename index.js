@@ -31,7 +31,7 @@ app.post("/createCard", async (req, res)=>{
 app.post ("/addCard", async (req,res) =>{
     try{
         const card = await Card.create (req.body);
-        console.log(card);
+     //   console.log(card);
         res.status(201).json(card);
     }catch{
         console.error(error);
@@ -43,7 +43,7 @@ app.post ("/addCard", async (req,res) =>{
 app.get("/getCards", async (req, res) => {
     try {
         const cards = await Card.find();
-        res.status(200).json(res);
+        res.status(200).json(cards);
     } catch (error) {
         res.status(400).json({ error: 'Failed to fetch cards' });
         console.error(error);
