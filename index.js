@@ -148,7 +148,7 @@ app.delete('/delateCard/:id', async (req, res) => {
 //TEST ROUTES
 
 // root route - API documentation
-app.get("/", (req, res) => {
+app.get("/endpoints", (req, res) => {
     res.status(200).json({
         message: "API de Cards - Exercise 2",
         version: "1.0.0",
