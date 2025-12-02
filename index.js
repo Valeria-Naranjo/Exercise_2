@@ -147,29 +147,6 @@ app.delete('/delateCard/:id', async (req, res) => {
 //TEST ROUTES
 
 // root route - API documentation
-app.get("/endpoints", (req, res) => {
-    res.status(200).json({
-        message: "API de Cards - Exercise 2",
-        version: "1.0.0",
-        endpoints: {
-            cards: {
-                createCard: "POST /createCard",
-                addCard: "POST /addCard",
-                getCards: "GET /getCards",
-                getCard: "GET /getCard/:id",
-                updateCardPUT: "PUT /updateCard/:id",
-                updateCardPATCH: "PATCH /updateCard/:id",
-                deleteCard: "DELETE /deleteCard/:id"
-            },
-            test: {
-                hello: "GET /hola",
-                send: "POST /send"
-            }
-        },
-        status: "online",
-        database: "connected"
-    });
-});
 
 
 app.get("/hola",(req,res)=>{
